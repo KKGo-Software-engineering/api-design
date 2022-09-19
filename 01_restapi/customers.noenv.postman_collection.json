@@ -1,0 +1,362 @@
+{
+	"info": {
+		"_postman_id": "50e51037-bcb2-43a6-b482-9fb4267b0152",
+		"name": "customers",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create customer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8239cb9e-b450-4eb6-8bde-ac3dddf6dc05",
+						"exec": [
+							"var customer = JSON.parse(responseBody);",
+							"console.log(customer);",
+							"postman.setEnvironmentVariable(\"LATEST_CUSTOMER_ID\", customer.id);",
+							"",
+							"",
+							"pm.test(\"should response success(201) and object of customer\", function () {",
+							"    var response = pm.response.json();",
+							"    pm.expect(response.id).to.not.eql(0);",
+							"    pm.expect(response.name).to.eql(\"anuchito\");",
+							"    pm.expect(response.email).to.eql(\"anuchito@imail.com\");",
+							"    pm.expect(response.status).to.eql(\"active\");",
+							"});",
+							"",
+							"pm.test(\"Status code is 201 or 202\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "November 10, 2009",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"anuchito\",\n\t\"email\": \"anuchito@imail.com\",\n\t\"status\": \"active\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:2565/customers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2009",
+					"path": [
+						"customers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get latest customer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "efe5e997-c7c8-4de3-9229-9b13a05f4b2a",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"should response object of latest customer\", function () {",
+							"    var id = pm.environment.get(\"LATEST_CUSTOMER_ID\");",
+							"    ",
+							"    var customer = pm.response.json();",
+							"    pm.expect(customer.id.toString()).to.eql(id);",
+							"    pm.expect(customer.name).to.not.eql(\"\");",
+							"    pm.expect(customer.email).to.not.eql(\"\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "November 10, 2009"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:2565/customers/{{LATEST_CUSTOMER_ID}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2009",
+					"path": [
+						"customers",
+						"{{LATEST_CUSTOMER_ID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all customers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b08c1994-b052-4308-8bd6-93af14150cda",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"should response success(200) and object of latest customer\", function () {",
+							"    var allCustomers = pm.response.json();",
+							"    var len = allCustomers.length;",
+							"    ",
+							"    pm.expect(len).to.be.above(0);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "November 10, 2009"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:2565/customers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2009",
+					"path": [
+						"customers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update latest customer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9a8f6d45-c23d-4196-a17c-9f9a9403797e",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"should response success(200) and object of customer\", function () {",
+							"    var id = pm.environment.get(\"LATEST_CUSTOMER_ID\");",
+							"    ",
+							"    var customer = pm.response.json();",
+							"    pm.expect(customer.id.toString()).to.eql(id);",
+							"    pm.expect(customer.name).to.eql(\"nong\");",
+							"    pm.expect(customer.email).to.eql(\"nong@imail.com\");",
+							"    pm.expect(customer.status).to.eql(\"inactive\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "November 10, 2009"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\": {{LATEST_CUSTOMER_ID}},\n\t\"name\": \"nong\",\n\t\"email\": \"nong@imail.com\",\n\t\"status\": \"inactive\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:2565/customers/{{LATEST_CUSTOMER_ID}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2009",
+					"path": [
+						"customers",
+						"{{LATEST_CUSTOMER_ID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete latest customer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b10d8bc5-fd08-4137-a268-bf589a83af63",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"should response success(200) and object of customer\", function () {",
+							"    var response = pm.response.json();",
+							"    pm.expect(response.message).to.eql(\"customer deleted\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "November 10, 2009"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:2565/customers/{{LATEST_CUSTOMER_ID}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2009",
+					"path": [
+						"customers",
+						"{{LATEST_CUSTOMER_ID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Bonus middleware check Autorization",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5deab777-5530-48f3-9eff-b6048691683e",
+						"exec": [
+							"pm.test(\"Status code is 401 Unauthorized\", function () {",
+							"    pm.response.to.have.status(401);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "November 10, 2009wrong_token"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:2565/customers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2009",
+					"path": [
+						"customers"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

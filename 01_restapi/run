@@ -1,0 +1,13 @@
+#!/bin/bash
+DATABASE_URL=postgres://jjqqdegw:bpOkszJWGxy9ihI5iFkkGXMi1UxOSheW@john.db.elephantsql.com:5432/jjqqdegw go run *.go
+DATABASE_DRIVER=postgres
+AUTH_TOKEN="November 10, 2009"
+
+
+DATABASE_URL=customers DATABASE_DRIVER=ramsql AUTH_TOKEN="November 10, 2009" go run server.go
+
+
+# How to run 
+DATABASE_DRIVER=postgres DATABASE_URL=postgres://womhgpip:HJzg9xLPdLZzKCC0moSCIXUb8eOqR7KZ@tiny.db.elephantsql.com/womhgpip AUTH_TOKEN="November 10, 2009"  go run server.go
+
+AUTH_TOKEN="November 10, 2009" go test -v check_test.go

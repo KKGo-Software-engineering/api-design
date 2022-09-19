@@ -1,0 +1,11 @@
+POST /users HTTP/1.1
+User-Agent: Thunder Client (https://www.thunderclient.com)
+Accept: application/json
+Content-Type: application/json
+Host: localhost:2565
+Content-Length: 45
+
+{
+	"name": "anuchito@imail.com",
+	"age": 19
+}
