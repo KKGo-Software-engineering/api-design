@@ -5,20 +5,19 @@ package user
 import (
 	"bytes"
 	"encoding/json"
+	"github.com/stretchr/testify/assert"
 	"io"
 	"net/http"
 	"os"
 	"strconv"
 	"strings"
 	"testing"
-
-	"github.com/stretchr/testify/assert"
 )
 
 func TestGetAllUser(t *testing.T) {
 	seedUser(t)
-	var us []User
 
+	var us []User
 	res := request(http.MethodGet, uri("users"), nil)
 	err := res.Decode(&us)
 
@@ -32,8 +31,8 @@ func TestCreateUser(t *testing.T) {
 		"name": "anuchito",
 		"age": 19
 	}`)
-	var u User
 
+	var u User
 	res := request(http.MethodPost, uri("users"), body)
 	err := res.Decode(&u)
 
@@ -58,6 +57,14 @@ func TestGetUserByID(t *testing.T) {
 	assert.NotEmpty(t, latest.Age)
 }
 
+func TestUpdateUserByID(t *testing.T) {
+	t.Skip("TODO: implement me PATCH /users/:id")
+}
+
+func TestDeleteUserByID(t *testing.T) {
+	t.Skip("TODO: implement me DELETE /users/:id")
+}
+
 func seedUser(t *testing.T) User {
 	var c User
 	body := bytes.NewBufferString(`{
@@ -71,14 +78,6 @@ func seedUser(t *testing.T) User {
 	return c
 }
 
-func TestUpdateUserByID(t *testing.T) {
-	t.Skip("TODO: implement me PATCH /users/:id")
-}
-
-func TestDeleteUserByID(t *testing.T) {
-	t.Skip("TODO: implement me DELETE /users/:id")
-}
-
 func uri(paths ...string) string {
 	host := "http://localhost:2565"
 	if paths == nil {
@@ -87,15 +86,6 @@ func uri(paths ...string) string {
 
 	url := append([]string{host}, paths...)
 	return strings.Join(url, "/")
-}
-
-func request(method, url string, body io.Reader) *Response {
-	req, _ := http.NewRequest(method, url, body)
-	req.Header.Add("Authorization", os.Getenv("AUTH_TOKEN"))
-	req.Header.Add("Content-Type", "application/json")
-	client := http.Client{}
-	res, err := client.Do(req)
-	return &Response{res, err}
 }
 
 type Response struct {
@@ -109,4 +99,13 @@ func (r *Response) Decode(v interface{}) error {
 	}
 
 	return json.NewDecoder(r.Body).Decode(v)
+}
+
+func request(method, url string, body io.Reader) *Response {
+	req, _ := http.NewRequest(method, url, body)
+	req.Header.Add("Authorization", os.Getenv("AUTH_TOKEN"))
+	req.Header.Add("Content-Type", "application/json")
+	client := http.Client{}
+	res, err := client.Do(req)
+	return &Response{res, err}
 }

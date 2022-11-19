@@ -72,11 +72,11 @@ func seedUser(t *testing.T) User {
 }
 
 func TestUpdateUserByID(t *testing.T) {
-	t.Skip("TODO: implement me PATCH /users/:id")
+	t.Skip("TODO: implement me")
 }
 
 func TestDeleteUserByID(t *testing.T) {
-	t.Skip("TODO: implement me DELETE /users/:id")
+	t.Skip("TODO: implement me")
 }
 
 func uri(paths ...string) string {

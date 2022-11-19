@@ -1,4 +1,4 @@
- package user
+package user
 
 import (
 	"net/http"
@@ -6,8 +6,8 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func CreateUserHandler(c echo.Context) error {
-	u := User{}
+func CreateUsersHandler(c echo.Context) error {
+	var u User
 	err := c.Bind(&u)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, Err{Message: err.Error()})
